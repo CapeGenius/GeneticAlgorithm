@@ -1,6 +1,7 @@
 /* Rohan Bendapudi - 1/31/2023
 Genetic Algorithm to solve the traveling salesman problem
  */
+
 package geneticalgorithm;
 
 import java.util.ArrayList;
@@ -15,11 +16,23 @@ public class GeneticAlgorithm
   public static void main(String[] args)
   {
     // declares a new pool of genes and begins a genetic algorithm to find an optimal solution
-    GenePool objGeneticAlgorithm = new GenePool();
+    GenePool initialPool = new GenePool();
     ArrayList<GenePool.Gene> genePool = new ArrayList<>();
     
     //generates a pool of genes
-    genePool = objGeneticAlgorithm.generatePool(objGeneticAlgorithm.state);
+    genePool = initialPool.generatePool(initialPool.state);
+    
+    //initializes population and continues until the convergence limit has been reached
+    boolean convergenceReached = false;
+    while (convergenceReached == false)
+    {
+      if (genePool.get(0).distance <= initialPool.convergenceLimit)
+      {
+        break;
+      }
+      
+      
+    }
 
     
     System.out.println(genePool);
@@ -68,7 +81,7 @@ class GenePool
   public GenePool()
   {
     this.state = this.state;
-    this.convergenceLimit = 1000;
+    this.convergenceLimit = 900;
   }
   
   // generate pool of genes
@@ -145,7 +158,7 @@ class GenePool
     for (int i = 0; i < gene.length; i++)
     {
       //generates a random number and swaps the index value at that randon number and swaps values
-      int randomNumber = randomNumber();
+      int randomNumber = randomNumber(state.length);
       int temp = (Integer) gene[i];
       gene[i] = (Integer) gene[randomNumber];
       gene[randomNumber] = temp;
@@ -163,10 +176,22 @@ class GenePool
     System.out.println("");
   }
   
-  // generates a random number using Math.random()
-  public int randomNumber()
+  //stochastic random sampling to choose random tours
+  public ArrayList<Gene> stochasticUniversalSampling(ArrayList<Gene> genePool)
   {
-    int randomNumber = (int) (Math.random() * state.length);
+    
+    int randomIndex = randomNumber(genePool.size());
+    
+    Gene firstTour = genePool.get(randomIndex);
+    
+    
+    return genePool;
+  }
+  
+  // generates a random number using Math.random()
+  public int randomNumber(int value)
+  {
+    int randomNumber = (int) (Math.random() * value);
     return randomNumber;
   }
 
